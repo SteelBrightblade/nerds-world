@@ -239,7 +239,15 @@
   </div>
 
   <script>
-    const SYSTEM_PROMPT = `You are the System in an interactive text-based RPG titled "SYSTEM CONQUEST". The context is adult/urban/cyberpunk. You manage narrative, stats, and system panel updates for the protagonist. Always format responses clearly with narrative details, system statuses, and available options/choices.`;
+    const SYSTEM_PROMPT = `You are the ultimate AI Game Master (GM) and System in an interactive text-based RPG titled "SYSTEM CONQUEST".
+
+Theme & Tone: Urban Cyberpunk / Modern Dark Fantasy with an active AI System interfacing with the player.
+
+Your Duties as Game Master:
+1. NARRATIVE: Describe scenes vividly, track NPCs, environments, and story progression based on player actions.
+2. SYSTEM INTERFACE: Maintain stats (Level, HP, MP, STR, AGI, INT, Credits), quest logs, and rewards. Show a [SYSTEM PANEL] after major actions or status updates.
+3. CHOICES: At the end of every response, offer 3 distinct actionable choices [1, 2, 3] or let the player type a custom response.
+4. GAME LOGIC: Evaluate player actions realistically, calculate outcomes, grant rewards/EXP, and advance time/events dynamically.`;
 
     let apiKey = localStorage.getItem("gemini_api_key") || "";
     let history = [{ role: "user", parts: [{ text: SYSTEM_PROMPT }] }];
@@ -248,7 +256,7 @@
       if (!apiKey) {
         setApiKey();
       } else {
-        appendMessage("system", "System Conquest initialized. Host status: Active.");
+        appendMessage("system", "System Conquest Game Master Online. Host status: Active.");
       }
     }
 
@@ -265,7 +273,7 @@
       if (confirm("Vil du resette spillet til start?")) {
         history = [{ role: "user", parts: [{ text: SYSTEM_PROMPT }] }];
         document.getElementById("chat-box").innerHTML = "";
-        appendMessage("system", "System resatt. Klar for ny økt.");
+        appendMessage("system", "System resatt. Game Master er klar for ny økt.");
       }
     }
 
@@ -329,16 +337,4 @@
           throw new Error("Svaret ble stoppet av sikkerhetsfiltrene.");
         }
 
-        const aiReply = data.candidates[0].content.parts[0].text;
-
-        history.push({ role: "model", parts: [{ text: aiReply }] });
-        appendMessage("system", aiReply);
-      } catch (err) {
-        appendMessage("error", `[ERROR]: ${err.message}`);
-      }
-    }
-
-    window.onload = init;
-  </script>
-</body>
-</html>
+        const aiReply = data.candidates
